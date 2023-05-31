@@ -50,8 +50,7 @@ class _Scholarly:
 
         return self.__nav._set_retries(num_retries)
 
-    def use_proxy(self, proxy_generator: ProxyGenerator,
-                  secondary_proxy_generator: ProxyGenerator = None) -> None:
+    def use_proxy(self, proxy_generator: ProxyGenerator) -> None:
         """Select which proxy method to use.
 
         See the available ProxyGenerator methods.
@@ -75,7 +74,7 @@ class _Scholarly:
             scholarly.use_proxy(pg)
 
         """
-        self.__nav.use_proxy(proxy_generator, secondary_proxy_generator)
+        self.__nav.use_proxy(proxy_generator)
 
 
     def set_logger(self, enable: bool):

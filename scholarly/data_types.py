@@ -83,13 +83,8 @@ class ProxyMode(str, Enum):
     """
     Defines the different types supported.
     """
-    FREE_PROXIES = "FREE_PROXIES"
-    SCRAPERAPI = "SCRAPERAPI"
-    LUMINATI = "LUMINATI"
-    SINGLEPROXY = "SINGLEPROXY"
-    # Deprecated:
-    TOR_EXTERNAL = "TOR_EXTERNAL"
-    TOR_INTERNAL = "TOR_INTERNAL"
+    ZENROWSAPI = "ZENROWSAPI" 
+
 
 
 ''' Lightweight Data Structure to keep distribution of citations of the years '''
