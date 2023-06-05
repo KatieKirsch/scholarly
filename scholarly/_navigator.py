@@ -11,6 +11,7 @@ import logging
 import random
 import time
 import os
+import sys
 import requests
 from requests.exceptions import Timeout
 from httpx import TimeoutException
@@ -85,6 +86,10 @@ class Navigator(object, metaclass=Singleton):
         html = self._get_page('https://scholar.google.com{0}'.format(url))
         html = html.replace(u'\xa0', u' ')
         res = BeautifulSoup(html, 'html.parser')
+
+        if 'did not match any articles' in res.get_text():
+            raise ValueError('Search did not match any articles')
+
         try:
             self.publib = res.find('div', id='gs_res_glb').get('data-sva')
         except Exception:
@@ -124,7 +129,12 @@ class Navigator(object, metaclass=Singleton):
         :returns: a publication object
         :rtype: {Publication}
         """
-        soup = self._get_soup(url)
+        try:
+            soup = self._get_soup(url)
+        except ValueError as e:
+            print(f"Error: {e}")
+            sys.exit(1)
+
         publication_parser = PublicationParser(self)
         pub = publication_parser.get_publication(soup.find_all('div', 'gs_or')[0], PublicationSource.PUBLICATION_SEARCH_SNIPPET)
         if filled:
