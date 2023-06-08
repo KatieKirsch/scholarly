@@ -65,7 +65,6 @@ class Navigator(object, metaclass=Singleton):
         """
 
         self.logger.info("Getting %s", pagerequest)
-        print(f"Getting {pagerequest}")
         resp = None
         proxies = self._proxies1
 
