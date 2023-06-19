@@ -318,7 +318,8 @@ class _Scholarly:
                                  "from that year.", object["bib"]["title"], sub_citations.total_results, y_lo)
             yield from sub_citations
 
-    def search_author_id(self, id: str, filled: bool = False, sortby: str = "citedby", publication_limit: int = 0)->Author:
+    def search_author_id(self, id: str, sections: list = [], sortby: str = "citedby", publication_limit: int = 0)->Author:
+    # def search_author_id(self, id: str, filled: bool = False, sortby: str = "citedby", publication_limit: int = 0)->Author:
         """Search by author id and return a single Author object
         :param sortby: select the order of the citations in the author page. Either by 'citedby' or 'year'. Defaults to 'citedby'.
         :type sortby: string
@@ -345,7 +346,8 @@ class _Scholarly:
                  'source': 'AUTHOR_PROFILE_PAGE',
                  'url_picture': 'https://scholar.googleusercontent.com/citations?view_op=view_photo&user=EmD_lTEAAAAJ&citpid=3'}
         """
-        return self.__nav.search_author_id(id, filled, sortby, publication_limit)
+        return self.__nav.search_author_id(id, sections, sortby, publication_limit)
+        # return self.__nav.search_author_id(id, filled, sortby, publication_limit)
 
     def search_keyword(self, keyword: str):
         """Search by keyword and return a generator of Author objects
