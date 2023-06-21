@@ -1,6 +1,8 @@
 import re
 import bibtexparser
 import arrow
+import random
+from time import sleep
 from bibtexparser.bibdatabase import BibDatabase
 from .data_types import BibEntry, Mandate, Publication, PublicationSource
 
@@ -87,6 +89,7 @@ class _SearchScholarIterator(object):
             url = self._soup.find(
                 class_='gs_ico gs_ico_nav_next').parent['href']
             self._url = url
+            sleep(random.uniform(3,10))
             self._load_url(url)
             return self.__next__()
         else:
