@@ -319,8 +319,9 @@ class _Scholarly:
             yield from sub_citations
 
     def search_author_id(self, id: str, sections: list = [], sortby: str = "citedby", publication_limit: int = 0)->Author:
-    # def search_author_id(self, id: str, filled: bool = False, sortby: str = "citedby", publication_limit: int = 0)->Author:
         """Search by author id and return a single Author object
+        :param sections: Select the sections that should be filled, defaults to ``[]``
+        :type sections: list, optional
         :param sortby: select the order of the citations in the author page. Either by 'citedby' or 'year'. Defaults to 'citedby'.
         :type sortby: string
         :param publication_limit: if the object is an author, select the max number of publications you want you want to fill for the author. Defaults to no limit.
