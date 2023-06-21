@@ -143,7 +143,7 @@ class Navigator(object, metaclass=Singleton):
         """
         return _SearchScholarIterator(self, url)
 
-    def search_author_id(self, id: str, sections: list = ['basics'], sortby: str = "citedby", publication_limit: int = 0) -> Author:
+    def search_author_id(self, id: str, sections: list = [], sortby: str = "citedby", publication_limit: int = 0) -> Author:
     # def search_author_id(self, id: str, filled: bool = False, sortby: str = "citedby", publication_limit: int = 0) -> Author:   
         """Search by author ID and return a Author object
         :param id: the Google Scholar id of a particular author
