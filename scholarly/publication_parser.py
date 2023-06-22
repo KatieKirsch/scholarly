@@ -90,8 +90,8 @@ class _SearchScholarIterator(object):
                 class_='gs_ico gs_ico_nav_next').parent['href']
             self._url = url
             print(f"url {self._url}")
+            sleep(random.uniform(3,10))
             self._load_url(url)
-            # sleep(random.uniform(3,10))
             return self.__next__()
         else:
             print("stop iteration")
