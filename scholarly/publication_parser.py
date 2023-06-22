@@ -54,6 +54,7 @@ class _SearchScholarIterator(object):
         self._nav = nav
         self._load_url(url)
         self.total_results = self._get_total_results()
+        print(f"total pages {self.total_results}")
         self.pub_parser = PublicationParser(self._nav)
 
     def _load_url(self, url: str):
@@ -89,9 +90,21 @@ class _SearchScholarIterator(object):
             url = self._soup.find(
                 class_='gs_ico gs_ico_nav_next').parent['href']
             self._url = url
+
             print(f"url {self._url}")
-            sleep(random.uniform(3,10))
-            self._load_url(url)
+            sleep(random.uniform(1,3))
+            max_attempts = 3
+            attempt_count = 0
+
+            while attempt_count < max_attempts:
+                self._load_url(url)
+                if self._soup:
+                    # Scraping successful
+                    break
+                else:
+                    attempt_count += 1
+                    print(f"Attempt #{attempt_count} failed. Retrying...")
+
             return self.__next__()
         else:
             print("stop iteration")
