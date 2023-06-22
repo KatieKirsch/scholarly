@@ -81,8 +81,6 @@ class _SearchScholarIterator(object):
 
     def __next__(self):
         print(f"url {self._url}")
-        print(f"pos {self._pos}")
-        print(f"rows {len(self._rows)}")
         if self._pos < len(self._rows):
             row = self._rows[self._pos]
             self._pos += 1
@@ -92,8 +90,8 @@ class _SearchScholarIterator(object):
             url = self._soup.find(
                 class_='gs_ico gs_ico_nav_next').parent['href']
             self._url = url
-            sleep(random.uniform(3,10))
             self._load_url(url)
+            sleep(random.uniform(3,10))
             return self.__next__()
         else:
             raise StopIteration
