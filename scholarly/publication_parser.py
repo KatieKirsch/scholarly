@@ -92,7 +92,7 @@ class _SearchScholarIterator(object):
             self._url = url
             print(url)
             self._load_url(url)
-            sleep(random.uniform(1,3))
+            sleep(random.uniform(3,5))
             return self.__next__()
         else:
             print("stop iteration")
