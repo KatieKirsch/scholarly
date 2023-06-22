@@ -90,21 +90,9 @@ class _SearchScholarIterator(object):
             url = self._soup.find(
                 class_='gs_ico gs_ico_nav_next').parent['href']
             self._url = url
-
+            print(url)
+            self._load_url(url)
             sleep(random.uniform(1,3))
-            max_attempts = 3
-            attempt_count = 0
-
-            while attempt_count < max_attempts:
-                self._load_url(url)
-                if len(self._rows) > 0:
-                    print("Scraping successful")
-                    break
-                else:
-                    attempt_count += 1
-                    print(f"url {self._url}")
-                    print(f"Attempt #{attempt_count} failed. Retrying...")
-
             return self.__next__()
         else:
             print("stop iteration")
