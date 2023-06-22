@@ -53,6 +53,7 @@ class _SearchScholarIterator(object):
         self._nav = nav
         self._load_url(url)
         self.total_results = self._get_total_results()
+        print(f"total rows {self.total_results}")
         self.pub_parser = PublicationParser(self._nav)
 
     def _load_url(self, url: str):
@@ -95,10 +96,11 @@ class _SearchScholarIterator(object):
             while attempt_count < max_attempts:
                 time.sleep(3)
                 self._load_url(url)
-                if self._soup:
+                if len(self._rows) > 0:
                     break
                 else:
                     attempt_count += 1
+                    print(f"Failed to scrape. Attempt {attempt_count} of {max_attempts}")
             
             return self.__next__()
         else:
