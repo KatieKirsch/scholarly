@@ -80,6 +80,9 @@ class _SearchScholarIterator(object):
         return self
 
     def __next__(self):
+        print(f"url {self._url}")
+        print(f"pos {self._pos}")
+        print(f"rows {self._rows}")
         if self._pos < len(self._rows):
             row = self._rows[self._pos]
             self._pos += 1
