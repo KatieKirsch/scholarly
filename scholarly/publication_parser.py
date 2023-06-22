@@ -1,7 +1,7 @@
 import re
 import bibtexparser
 import arrow
-from time
+import time
 from bibtexparser.bibdatabase import BibDatabase
 from .data_types import BibEntry, Mandate, Publication, PublicationSource
 
