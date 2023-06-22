@@ -91,7 +91,6 @@ class _SearchScholarIterator(object):
                 class_='gs_ico gs_ico_nav_next').parent['href']
             self._url = url
 
-            print(f"url {self._url}")
             sleep(random.uniform(1,3))
             max_attempts = 3
             attempt_count = 0
@@ -103,6 +102,7 @@ class _SearchScholarIterator(object):
                     break
                 else:
                     attempt_count += 1
+                    print(f"url {self._url}")
                     print(f"Attempt #{attempt_count} failed. Retrying...")
 
             return self.__next__()
