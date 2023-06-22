@@ -88,8 +88,18 @@ class _SearchScholarIterator(object):
             url = self._soup.find(
                 class_='gs_ico gs_ico_nav_next').parent['href']
             self._url = url
-            self._load_url(url)
-            time.sleep(5)
+
+            max_attempts = 3
+            attempt_count = 0
+
+            while attempt_count < max_attempts:
+                time.sleep(3)
+                self._load_url(url)
+                if self._soup:
+                    break
+                else:
+                    attempt_count += 1
+            
             return self.__next__()
         else:
             raise StopIteration
