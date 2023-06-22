@@ -98,8 +98,8 @@ class _SearchScholarIterator(object):
 
             while attempt_count < max_attempts:
                 self._load_url(url)
-                if self._soup:
-                    # Scraping successful
+                if len(self._rows) > 0:
+                    print("Scraping successful")
                     break
                 else:
                     attempt_count += 1
