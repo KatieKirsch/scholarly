@@ -54,7 +54,6 @@ class _SearchScholarIterator(object):
         self._nav = nav
         self._load_url(url)
         self.total_results = self._get_total_results()
-        print(f"total pages {self.total_results}")
         self.pub_parser = PublicationParser(self._nav)
 
     def _load_url(self, url: str):
@@ -90,12 +89,10 @@ class _SearchScholarIterator(object):
             url = self._soup.find(
                 class_='gs_ico gs_ico_nav_next').parent['href']
             self._url = url
-            print(url)
             self._load_url(url)
             sleep(random.uniform(3,5))
             return self.__next__()
         else:
-            print("stop iteration")
             raise StopIteration
 
     # Pickle protocol
