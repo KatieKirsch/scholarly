@@ -30,6 +30,9 @@ _BIB_REVERSE_MAPPING = {
     'bib_id': 'ID',
 }
 
+class MaxTriesExceededException(Exception):
+    """Maximum number of tries by scholarly reached"""
+
 def remap_bib(parsed_bib: dict, mapping: dict, data_types:dict ={}) -> BibEntry:
     for key, value in mapping.items():
         if key in parsed_bib:
@@ -51,16 +54,25 @@ class _SearchScholarIterator(object):
         self._url = url
         self._pubtype = PublicationSource.PUBLICATION_SEARCH_SNIPPET if "/scholar?" in url else PublicationSource.JOURNAL_CITATION_LIST
         self._nav = nav
-        self._load_url(url)
+        self.max_tries = 3
+        self._load_url(url,self.max_tries)
         self.total_results = self._get_total_results()
-        print(f"total rows {self.total_results}")
         self.pub_parser = PublicationParser(self._nav)
 
-    def _load_url(self, url: str):
+    def _load_url(self, url: str, n_tries: int):
         # this is temporary until setup json file
         self._soup = self._nav._get_soup(url)
         self._pos = 0
         self._rows = self._soup.find_all('div', class_='gs_r gs_or gs_scl') + self._soup.find_all('div', class_='gsc_mpat_ttl')
+
+        if len(self._rows) > 0:
+            return
+        elif n_tries > 0:
+            time.sleep(3)
+            return self._load_url(url, n_tries -= 1)
+        else:
+            msg = "Maximum tries exceeded."
+            raise MaxTriesExceededException(msg)
 
     def _get_total_results(self):
         if self._soup.find("div", class_="gs_pda"):
@@ -89,31 +101,19 @@ class _SearchScholarIterator(object):
             url = self._soup.find(
                 class_='gs_ico gs_ico_nav_next').parent['href']
             self._url = url
-
-            max_attempts = 3
-            attempt_count = 0
-
-            while attempt_count < max_attempts:
-                time.sleep(3)
-                self._load_url(url)
-                if len(self._rows) > 0:
-                    break
-                else:
-                    attempt_count += 1
-                    print(f"Failed to scrape. Attempt {attempt_count} of {max_attempts}")
-            
+            self._load_url(url, self.max_tries)
             return self.__next__()
         else:
             raise StopIteration
 
-    # Pickle protocol
-    def __getstate__(self):
-        return {'url': self._url, 'pos': self._pos}
+    # # Pickle protocol
+    # def __getstate__(self):
+    #     return {'url': self._url, 'pos': self._pos}
 
-    def __setstate__(self, state):
-        # this needs validation -V
-        self._load_url(state['url'])
-        self._pos = state['pos']
+    # def __setstate__(self, state):
+    #     # this needs validation -V
+    #     self._load_url(state['url'])
+    #     self._pos = state['pos']
 
 
 class PublicationParser(object):
