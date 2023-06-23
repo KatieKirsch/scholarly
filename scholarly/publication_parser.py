@@ -69,8 +69,8 @@ class _SearchScholarIterator(object):
             return
         elif n_tries > 0:
             time.sleep(3)
-            print(f"{url}: try number {n_tries}")
-            return self._load_url(url, n_tries -= 1)
+            print(f"{url}:{n_tries - 1} remaining tries ")
+            return self._load_url(url, n_tries - 1)
         else:
             msg = "Maximum tries exceeded."
             raise MaxTriesExceededException(msg)
