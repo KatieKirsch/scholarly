@@ -64,12 +64,14 @@ class _SearchScholarIterator(object):
         self._soup = self._nav._get_soup(url)
         self._pos = 0
         self._rows = self._soup.find_all('div', class_='gs_r gs_or gs_scl') + self._soup.find_all('div', class_='gsc_mpat_ttl')
+        print(url)
 
         if len(self._rows) > 0:
+            print(f"success")
             return
         elif n_tries > 0:
             time.sleep(3)
-            print(f"{url}:{n_tries - 1} remaining tries ")
+            print(f"{n_tries - 1} remaining tries ")
             return self._load_url(url, n_tries - 1)
         else:
             msg = "Maximum tries exceeded."
