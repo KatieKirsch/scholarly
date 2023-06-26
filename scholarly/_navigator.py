@@ -12,7 +12,6 @@ import random
 import time
 import requests
 from requests.exceptions import Timeout
-from httpx import TimeoutException
 from .publication_parser import _SearchScholarIterator
 from .author_parser import AuthorParser
 from .publication_parser import PublicationParser
