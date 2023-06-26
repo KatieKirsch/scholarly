@@ -172,6 +172,8 @@ class PublicationParser(object):
     def _get_authorlist(self, authorinfo):
         authorlist = list()
         text = authorinfo.split(' - ')[0]
+        # Replace the non-standard comma-like character with a standard comma
+        text = text.replace("，", ",")
         for i in text.split(','):
             i = i.strip()
             if bool(re.search(r'\d', i)):
