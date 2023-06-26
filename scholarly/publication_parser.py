@@ -190,6 +190,8 @@ class PublicationParser(object):
     def _get_author_id_list(self, authorinfo_inner_html):
         author_id_list = list()
         html = authorinfo_inner_html.split(' - ')[0]
+        # Replace the non-standard comma-like character with a standard comma
+        html = html.replace("，", ",")
         for author_html in html.split(','):
             author_html = author_html.strip()
             match = re.search('\\?user=(.*?)&amp;', author_html)
