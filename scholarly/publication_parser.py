@@ -4,7 +4,7 @@ import arrow
 import time
 from bibtexparser.bibdatabase import BibDatabase
 from .data_types import BibEntry, Mandate, Publication, PublicationSource
-
+from ._proxy_generator import MaxTriesExceededException
 
 _SCHOLARPUBRE = r'cites=([\d,]*)'
 _CITATIONPUB = '/citations?hl=en&view_op=view_citation&citation_for_view={0}'
@@ -29,9 +29,6 @@ _BIB_REVERSE_MAPPING = {
     'pub_type': 'ENTRYTYPE',
     'bib_id': 'ID',
 }
-
-class MaxTriesExceededException(Exception):
-    """Maximum number of tries by scholarly reached"""
 
 def remap_bib(parsed_bib: dict, mapping: dict, data_types:dict ={}) -> BibEntry:
     for key, value in mapping.items():
