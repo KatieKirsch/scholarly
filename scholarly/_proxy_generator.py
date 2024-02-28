@@ -8,6 +8,7 @@ import httpx
 import tempfile
 import urllib3
 
+from requests.adapters import HTTPAdapter
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 from selenium.webdriver.support.wait import WebDriverWait, TimeoutException
 from urllib.parse import urlparse
@@ -50,7 +51,19 @@ class ProxyGenerator(object):
         self._TIMEOUT = 30
 
     def get_session(self):
-        return self._session
+        session = requests.Session()
+
+        # Define the retry strategy
+        retry_strategy = urllib3.util.Retry(
+            total=3,
+            backoff_factor=2,
+            status_forcelist=[429, 500, 502, 503, 504]
+        )
+
+        # Create an HTTP adapter with the retry strategy and mount it to session
+        session.mount("https://", HTTPAdapter(max_retries=retry_strategy))
+
+        return session
     
     def get_proxies(self):
         return self._proxies

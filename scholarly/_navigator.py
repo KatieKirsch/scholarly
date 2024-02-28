@@ -53,6 +53,7 @@ class Navigator(object, metaclass=Singleton):
     def use_proxy(self, pg1: ProxyGenerator):
         self.pm1 = pg1
         self._proxies1 = self.pm1.get_proxies()
+        self._session1 = self.pm1.get_session()
 
     def _get_page(self, pagerequest: str) -> str:
         """Return the data from a webpage
@@ -66,9 +67,10 @@ class Navigator(object, metaclass=Singleton):
         self.logger.info("Getting %s", pagerequest)
         resp = None
         proxies = self._proxies1
+        session = self._session1
 
         try:
-            resp = requests.get(pagerequest, proxies=proxies, verify=False)
+            resp = session.get(pagerequest, proxies=proxies, verify=False)
 
             if resp.status_code == 200:
                 return resp.text
