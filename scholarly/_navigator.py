@@ -129,9 +129,14 @@ class Navigator(object, metaclass=Singleton):
         """
         soup = self._get_soup(url)
         publication_parser = PublicationParser(self)
-        pub = publication_parser.get_publication(soup.find_all('div', 'gs_or')[0], PublicationSource.PUBLICATION_SEARCH_SNIPPET)
-        if filled:
-            pub = publication_parser.fill(pub)
+        try:
+            pub = publication_parser.get_publication(soup.find_all('div', 'gs_or')[0], PublicationSource.PUBLICATION_SEARCH_SNIPPET)
+            if filled:
+                pub = publication_parser.fill(pub)
+
+        except Exception as e:
+            raise RuntimeError(f"Error occurred in scholarly.publication_parser: {e}")
+
         return pub
 
     def search_publications(self, url: str) -> _SearchScholarIterator:
